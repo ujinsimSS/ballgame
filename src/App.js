@@ -28,7 +28,7 @@ const App = () => {
     if (colorIndex !== null) {
       const timer = setTimeout(() => {
         setCurrentColor(colors[colorIndex]);
-        const randomNumber = Math.floor(Math.random() * 20) + 1;
+        const randomNumber = Math.floor(Math.random() * 30) + 1;
         setNumber(randomNumber);
         setShowResult(true);
         setIsButtonDisabled(false);
