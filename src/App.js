@@ -47,7 +47,7 @@ const App = () => {
         <button
           onClick={handleButtonClick}
           style={{
-            fontSize: "24px",
+            fontSize: "40px",
             padding: "10px 20px",
           }}
           disabled={isButtonDisabled}
