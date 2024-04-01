@@ -1,25 +1,71 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+const App = () => {
+  const [colorIndex, setColorIndex] = useState(0);
+  const [number, setNumber] = useState(null);
+  const [showResult, setShowResult] = useState(false);
+  const [colors, setColors] = useState(["red", "black"]);
+  const [currentColor, setCurrentColor] = useState(colors[0]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-function App() {
+  const handleButtonClick = () => {
+    setShowResult(false);
+    setIsButtonDisabled(true);
+
+    let colorChangeInterval = setInterval(() => {
+      setCurrentColor((prevColor) => (prevColor === "red" ? "black" : "red"));
+    }, 100);
+
+    setTimeout(() => {
+      clearInterval(colorChangeInterval);
+      const nextColorIndex =
+        colorIndex === colors.length - 1 ? 0 : colorIndex + 1;
+      setColorIndex(nextColorIndex);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    if (colorIndex !== null) {
+      const timer = setTimeout(() => {
+        setCurrentColor(colors[colorIndex]);
+        const randomNumber = Math.floor(Math.random() * 20) + 1;
+        setNumber(randomNumber);
+        setShowResult(true);
+        setIsButtonDisabled(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [colorIndex, colors]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <link rel="shortcut icon" href="../public/pavicon.ico" />
+      <link rel="icon" href="../public/pavicon.ico" />
+      <style>{`body { background-color: ${currentColor} }`}</style>
+      <div className="button-wrapper">
+        <button
+          onClick={handleButtonClick}
+          style={{
+            fontSize: "24px",
+            padding: "10px 20px",
+          }}
+          disabled={isButtonDisabled}
         >
-          Learn React
-        </a>
-      </header>
+          {isButtonDisabled ? "뽑는 중..." : "뽑기 버튼"}
+        </button>
+      </div>
+      {showResult && (
+        <div className="bead" style={{ backgroundColor: currentColor }}>
+          <div
+            className="color"
+            style={{ backgroundColor: currentColor }}
+          ></div>
+          <div className="number">{number}</div>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;
