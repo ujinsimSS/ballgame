@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+
 const App = () => {
   const [colorIndex, setColorIndex] = useState(0);
   const [number, setNumber] = useState(null);
@@ -8,12 +9,17 @@ const App = () => {
   const [currentColor, setCurrentColor] = useState(colors[0]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  const getRandomColor = () => {
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+  };
+
   const handleButtonClick = () => {
     setShowResult(false);
     setIsButtonDisabled(true);
 
     let colorChangeInterval = setInterval(() => {
-      setCurrentColor((prevColor) => (prevColor === "red" ? "black" : "red"));
+      setCurrentColor(getRandomColor());
     }, 100);
 
     setTimeout(() => {
@@ -27,7 +33,7 @@ const App = () => {
   useEffect(() => {
     if (colorIndex !== null) {
       const timer = setTimeout(() => {
-        setCurrentColor(colors[colorIndex]);
+        setCurrentColor(getRandomColor());
         const randomNumber = Math.floor(Math.random() * 29) + 1;
         setNumber(randomNumber);
         setShowResult(true);
